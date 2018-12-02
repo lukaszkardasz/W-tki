@@ -1,12 +1,17 @@
 package Watki;
 
-public class ThreatRunnerExample {
+public class ThreatRunnerExample extends  Thread{
 
     private static final long MAX_VALUE = 100_000_000_000L;
 
     public static void main(String[] args) {
         //execute(MAX_VALUE);
-        lambdaRunnable(MAX_VALUE);
+        //lambdaRunnable(MAX_VALUE);
+        ExampleWith8Threads(MAX_VALUE);
+    }
+
+    private static void ExampleWith8Threads(long maxValue){
+
     }
 
     private static void lambdaRunnable(long value) {
