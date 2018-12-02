@@ -22,7 +22,7 @@ public class CallableExecutor  implements Callable<String> {
 
     }
 
-    private static void runMultipleThreads() throws InterruptedException {
+    private static void runMultipleThreads() throws InterruptedException, ExecutionException {
         ExecutorService executeMultipleService = Executors.newFixedThreadPool(8);
         //definiujemy liste zadan wykonania przez watki
         List<Callable<String>> tasks = new ArrayList<>();
@@ -30,9 +30,16 @@ public class CallableExecutor  implements Callable<String> {
         for (int i = 0 ; i < 10; i++){
             tasks.add(new CallableExecutor());
         }
-        executeMultipleService.invokeAll(tasks);
-        Thread.sleep(1000);
+        //uruchomienie za pomoca executora wszystkich watkow i zakakowanie do zmiennej results
+        List<Future<String>> threadResults = executeMultipleService.invokeAll(tasks);
 
+        Thread.sleep(1000);
+        //wypisywanie rezultatu kazdego z watkow - ktory watek wykonał które zadanie za pomoca foreacha
+        for (Future<String> threadResult : threadResults){
+            System.out.println("Wątek: " + threadResult.get());
+        }
+        //wylaczamy executora wielu watkow
+        executeMultipleService.shutdown();
     }
 
     private static void runSingleThread() throws InterruptedException, ExecutionException {
